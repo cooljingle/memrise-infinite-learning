@@ -5,8 +5,8 @@
 // @match          http://www.memrise.com/course/*/garden/*
 // @match          http://www.memrise.com/garden/review/*
 // @version        0.0.1
-// @updateURL      https://github.com/cooljingle/memrise-infinte-learning/raw/master/Memrise_Infinte_Learning.user.js
-// @downloadURL    https://github.com/cooljingle/memrise-infinte-learning/raw/master/Memrise_Infinte_Learning.user.js
+// @updateURL      https://github.com/cooljingle/memrise-infinte-learning/raw/master/Memrise_Infinite_Learning.user.js
+// @downloadURL    https://github.com/cooljingle/memrise-infinte-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
 // ==/UserScript==
 
