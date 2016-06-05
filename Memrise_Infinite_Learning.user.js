@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          http://www.memrise.com/course/*/garden/*
 // @match          http://www.memrise.com/garden/review/*
-// @version        0.0.1
+// @version        0.0.2
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -26,6 +26,7 @@ MEMRISE.garden.boxes.load = (function() {
                                 _.remove(response.boxes, function(b){return b.thing_id === self.thing_id;}); //stop current thing coming up a second time
                                 /*_.remove(g.boxes._list, function(b){return b.template === "end_of_session";}); //using alternate method below to avoid messing with existing scripts
                                 g.boxes.load(response.boxes);*/
+                                $.extend(response.boxes, {scheduled: true});
                                 Array.prototype.splice.apply(g.boxes._list, [g.boxes._list.length -1 , 0].concat(response.boxes));
                                 //mems
                                 g.mems.load(response.mems);
