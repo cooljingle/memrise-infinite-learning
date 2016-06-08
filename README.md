@@ -1,4 +1,4 @@
-# Memrise Catch Up Review
+# Memrise Infinite Learning
 
 Causes items to continually be loaded during a learning session. 
 
