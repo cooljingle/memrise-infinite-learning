@@ -2,9 +2,9 @@
 // @name           Memrise Infinite Learning
 // @namespace      https://github.com/cooljingle
 // @description    Causes items to continually be loaded during a learning session
-// @match          http://www.memrise.com/course/*/garden/*
-// @match          http://www.memrise.com/garden/review/*
-// @version        0.0.4
+// @match          https://www.memrise.com/course/*/garden/*
+// @match          https://www.memrise.com/garden/review/*
+// @version        0.0.5
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
