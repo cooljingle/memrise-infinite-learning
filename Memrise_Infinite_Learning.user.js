@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.5
+// @version        0.0.6
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -23,7 +23,7 @@ $(document).ready(function() {
                         self = this,
                         box = this._list[this.num];
                     if(box.template === "end_of_session" && !forceEnd) {
-                        $.getJSON("http://www.memrise.com/ajax/session/", g.session_params, function(response){
+                        $.getJSON("https://www.memrise.com/ajax/session/", g.session_params, function(response){
                             if(response.success) {
                                 //boxes
                                 /*_.remove(g.boxes._list, function(b){return b.template === "end_of_session";}); //using alternate method below to avoid messing with existing scripts
