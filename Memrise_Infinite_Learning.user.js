@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.6
+// @version        0.0.7
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -12,10 +12,12 @@
 
 $(document).ready(function() {
     var forceEnd = false;
+    var items = [];
 
     MEMRISE.garden.boxes.load = (function() {
         var cached_function = MEMRISE.garden.boxes.load;
         return function() {
+            items = arguments[0];
             MEMRISE.garden.boxes.activate_box = (function() {
                 var cached_function = MEMRISE.garden.boxes.activate_box;
                 return function() {
@@ -41,7 +43,8 @@ $(document).ready(function() {
                                 //thingusers
                                 g.thingusers.load(response.thingusers);
 
-                                $('#infinite-learning').text(function(i, n){return Number(n) + response.boxes.length;});
+                                items = _.uniq(items.concat(response.boxes), function(b){return b.thing_id;});
+                                $('#infinite-learning').text(items.length);
                             }
                             return cached_function.apply(self, arguments);
                         });
@@ -64,7 +67,6 @@ $(document).ready(function() {
                     return result;
                 };
             }());
-
             return result;
         };
     }());
