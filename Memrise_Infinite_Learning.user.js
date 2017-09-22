@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.9
+// @version        0.0.10
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -12,12 +12,10 @@
 
 $(document).ready(function() {
     var forceEnd = false;
-    var items = [];
 
     MEMRISE.garden.boxes.load = (function() {
         var cached_function = MEMRISE.garden.boxes.load;
         return function() {
-            items = arguments[0];
             MEMRISE.garden.boxes.activate_box = (function() {
                 var cached_function = MEMRISE.garden.boxes.activate_box;
                 return function() {
@@ -27,25 +25,20 @@ $(document).ready(function() {
                     if(box.template === "end_of_session" && !forceEnd) {
                         $.getJSON("https://www.memrise.com/ajax/session/", g.session_params)
                             .done(function( response ) {
-                            if(response.success && response.session.slug !== "practise") {
+                            if(response.session && response.session.slug !== "practise") {
                                 //boxes
-                                /*_.remove(g.boxes._list, function(b){return b.template === "end_of_session";}); //using alternate method below to avoid messing with existing scripts
-                                g.boxes.load(response.boxes);*/
                                 _.each(response.boxes, function(b){$.extend(b, {scheduled: true});});
                                 Array.prototype.splice.apply(g.boxes._list, [g.boxes._list.length -1 , 0].concat(response.boxes));
-                                //mems
-                                g.mems.load(response.mems);
-                                //pools
-                                $.extend(g.pools, response.pools);
-                                //things
-                                $.extend(g.things, response.things);
-                                //thinguser_course_ids
-                                $.extend(g.thinguser_course_ids, response.thinguser_course_ids);
+                                //learnables
+                                _.each(response.learnables, l => g.learnables[l.learnable_id] = l);
+                                if(g.populateLearnables)
+                                    g.populateLearnables();
+                                //things_to_courses
+                                $.extend(g.things_to_courses, response.things_to_courses);
                                 //thingusers
                                 g.thingusers.load(response.thingusers);
 
-                                items = _.uniq(items.concat(response.boxes), function(b){return b.thing_id;});
-                                $('#infinite-learning').text(items.length);
+                                $('#infinite-learning').text(Object.keys(g.learnables).length);
                             }
                             return cached_function.apply(self, arguments);
                         })
