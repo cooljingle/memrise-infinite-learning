@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.10
+// @version        0.0.11
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -21,10 +21,15 @@ $(document).ready(function() {
                 return function() {
                     var g = MEMRISE.garden,
                         self = this,
-                        box = this._list[this.num];
+                        prevBox = this._list[this.num - 1],
+                        box = (prevBox && prevBox.autoLearn) ? _.find(this._list.slice(this.num), l => l.learnable_id !== prevBox.learnable_id) : this._list[this.num];
                     if(box.template === "end_of_session" && !forceEnd) {
                         $.getJSON("https://www.memrise.com/ajax/session/", g.session_params)
                             .done(function( response ) {
+                            _.remove(response.boxes, b => {
+                                var thinguser = _.find(response.thingusers, t => t.learnable_id === b.learnable_id);
+                                return thinguser && new Date(thinguser.next_date) > new Date();
+                            });
                             if(response.session && response.session.slug !== "practise") {
                                 //boxes
                                 _.each(response.boxes, function(b){$.extend(b, {scheduled: true});});
