@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.13
+// @version        0.0.14
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -43,11 +43,16 @@ $(document).ready(function() {
             $.getJSON("https://www.memrise.com/ajax/session/", g.session_params)
                 .done(function( response ) {
                 var removed = _.remove(response.boxes, b => {
-                    var thinguser = _.find(response.thingusers, t => t.learnable_id === b.learnable_id);
-                    return thinguser && (new Date(thinguser.next_date) > new Date() || _.any(g.boxes._list, x => x.autoLearn && x.learnable_id === b.learnable_id));
+                    if(_.any(g.boxes._list, x => x.autoLearn && x.learnable_id === b.learnable_id)) {
+                        b.autoLearned = true;
+                        return true;
+                    } else {
+                        var thinguser = _.find(response.thingusers, t => t.learnable_id === b.learnable_id);
+                        return thinguser && new Date(thinguser.next_date) > new Date();
+                    }
                 });
                 if(response.session && response.session.slug !== "practise") {
-                    if(removed.length){
+                    if(_.filter(removed, r => r.autoLearned).length){
                         setTimeout(() => fetchMore(callback), 500);
                         return;
                     } else {
