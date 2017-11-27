@@ -19,3 +19,5 @@ Then add the script using the following link: https://github.com/cooljingle/memr
 With the script enabled the learning session will continue until there is nothing left to review/learn of items relevant to that session. As you approach what would have been the end of session screen you may experience a slight pause as a request is made to get more items to put in. Once this is done the count of words to learn for the session will update accordingly and the session will continue as per normal.
 
 I have added a shortcut to the end of session screen in case you want to end the session prematurely and want to review your stats; to trigger it just click on the the number representing how many items you are learning for the session.
+
+<img alt="end-session-link" src="endSessionLink.png" width="70%" /> 
