@@ -4,7 +4,7 @@
 // @description    Causes items to continually be loaded during a learning session
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.14
+// @version        0.0.15
 // @updateURL      https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @downloadURL    https://github.com/cooljingle/memrise-infinite-learning/raw/master/Memrise_Infinite_Learning.user.js
 // @grant          none
@@ -65,6 +65,8 @@ $(document).ready(function() {
                         $.extend(MEMRISE.garden.screens, response.screens);
                         if(g.populateScreens)
                             g.populateScreens();
+                        if(g.populateScreenAudios)
+                            g.populateScreenAudios();
                         //things_to_courses
                         $.extend(g.things_to_courses, response.things_to_courses);
                         //thingusers
